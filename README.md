@@ -2,9 +2,9 @@
 This is a working version of the line detection and steering program for the Woodpecker LSEV as part of my senior capstone design team at Oregon State University.
 
 ## Requirements
--Python ver. 3.8+
--pip (Python package manager)
--git (version control manager)
+- Python ver. 3.8+
+- pip (Python package manager)
+- git (version control manager)
 
 ## Step one: clone this repository
 Type into your terminal/shell:
@@ -25,6 +25,6 @@ python3 line_following_v1.py
 ```
 
 ## Notes
--Video input: In the `process_frame` function, `cv.VideoCapture(0)` sets the laptop webcam as the video input source. To use a USB camera, you might need to try indexes 2, 3, or 4.
--The camera is meant to be placed at an angle close to the ground with the line at the same field of view as the trapezoidal frame. Try placing a rectangular object in front of a blank background and orienting the edges to match the trapezoid: ![Image of the video frame, Canny edge detection, and drawing the line edges and center.](<img width="1405" height="554" alt="Screenshot from 2026-04-22 02-35-44" src="https://github.com/user-attachments/assets/1dc422be-fd42-460f-88a0-749e90fcdd62" />
+- Video input: In the `process_frame` function, `cv.VideoCapture(0)` sets the laptop webcam as the video input source. To use a USB camera, you might need to try indexes 2, 3, or 4.
+- The camera is meant to be placed at an angle close to the ground with the line at the same field of view as the trapezoidal frame. Try placing a rectangular object in front of a blank background and orienting the edges to match the trapezoid: ![Image of the video frame, Canny edge detection, and drawing the line edges and center.](<img width="1405" height="554" alt="Screenshot from 2026-04-22 02-35-44" src="https://github.com/user-attachments/assets/1dc422be-fd42-460f-88a0-749e90fcdd62" />
 )
