@@ -1,4 +1,4 @@
-# Woodpecker_Autonomy_v1
+# Woodpecker_Autonomy
 This is a working version of the line detection and steering program for the Woodpecker LSEV as part of my senior capstone design team at Oregon State University.
 
 ## Requirements
@@ -14,7 +14,7 @@ git clone https://github.com/Substrate22/Woodpecker_Autonomy_v1.git
 
 To setup, you need to install the following dependicies via:
 ```
-cd Woodpecker_Autonomy_v1
+cd Woodpecker_Autonomy
 pip install numpy
 pip install opencv-python
 ```
