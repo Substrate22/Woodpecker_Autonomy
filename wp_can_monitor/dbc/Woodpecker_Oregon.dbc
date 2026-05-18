@@ -1,0 +1,54 @@
+VERSION ""
+
+
+BS_:
+
+BU_:
+
+
+BO_ 1664 ConfigurationEPS1: 8 Vector__XXX
+ SG_ Centering : 0|1@1- (1,0) [0|1] "" Vector__XXX
+
+BO_ 550 StatusEPS2: 8 Vector__XXX
+ SG_ EPSFaultCode : 56|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ EPSTemp : 55|8@0+ (1,-40) [-40|125] "deg" Vector__XXX
+ SG_ EPSTorque : 40|8@1+ (1,-100) [-100|100] "" Vector__XXX
+ SG_ StatCalibrated : 32|1@1- (1,0) [0|1] "" Vector__XXX
+ SG_ StatValidated : 33|1@1- (1,0) [0|1] "" Vector__XXX
+ SG_ EPSAvailability : 30|2@1+ (1,0) [0|3] "" Vector__XXX
+ SG_ SteeringSpeed : 16|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ SteeringAngle : 0|16@1+ (1,-7799) [-7799|57736] "" Vector__XXX
+
+BO_ 544 CommandEPS2: 8 Vector__XXX
+ SG_ SystemStatus : 56|2@1+ (1,0) [0|3] "" Vector__XXX
+ SG_ SteeringAngle : 16|16@1+ (1,-7799) [-7799|57736] "" Vector__XXX
+ SG_ SteeringSpeed : 8|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ EPASDriveEnable : 6|1@1- (1,0) [0|1] "" Vector__XXX
+
+BO_ 537 CommandEPS1: 8 Vector__XXX
+ SG_ SystemStatus : 56|2@1+ (1,0) [0|3] "" Vector__XXX
+ SG_ SteeringAngle : 16|16@1+ (1,-7799) [-7799|57736] "" Vector__XXX
+ SG_ SteeringSpeed : 8|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ EPASDriveEnable : 6|1@1- (1,0) [0|1] "" Vector__XXX
+
+BO_ 1665 ConfigurationEPS2: 8 Vector__XXX
+
+BO_ 549 StatusEPS1: 8 Vector__XXX
+ SG_ EPSFaultCode : 56|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ EPSTemp : 55|8@0+ (1,-40) [-40|125] "deg" Vector__XXX
+ SG_ EPSTorque : 40|8@1+ (1,-100) [-100|100] "" Vector__XXX
+ SG_ StatCalibrated : 32|1@1- (1,0) [0|1] "" Vector__XXX
+ SG_ StatValidated : 33|1@1- (1,0) [0|1] "" Vector__XXX
+ SG_ EPSAvailability : 30|2@1+ (1,0) [0|3] "" Vector__XXX
+ SG_ SteeringSpeed : 16|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ SteeringAngle : 0|16@1+ (1,-7799) [-7799|57736] "" Vector__XXX
+
+BO_ 340 CommandBrake: 8 Vector__XXX
+
+BO_ 323 BrakeErrorMessage: 8 Vector__XXX
+
+BO_ 322 BrakeStatusMessage: 8 Vector__XXX
+
+
+
+

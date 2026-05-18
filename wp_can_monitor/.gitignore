@@ -1,0 +1,15 @@
+# Virtual environment
+canenv/
+
+# CAN log files
+logs/
+
+# Cantools scripts (Moved to new directory in repo)
+python_scripts/
+
+# Cangaroo config
+*.cangaroo
+
+# Working notes (Replaced with README)
+*.txt
+docs/

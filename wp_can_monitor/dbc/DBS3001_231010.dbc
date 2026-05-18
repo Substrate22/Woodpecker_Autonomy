@@ -1,0 +1,37 @@
+VERSION ""
+
+
+BS_:
+
+BU_:
+
+
+BO_ 323 Brake_DBS_Status2: 8 Vector__XXX
+ SG_ DBS_FaultCode : 0|24@1+ (0,0) [0|0] "" Vector__XXX
+ SG_ DBS_WaringCode : 24|8@1+ (0,0) [0|0] "" Vector__XXX
+ SG_ DBS_CheckSum : 56|8@1+ (0,0) [0|0] "" Vector__XXX
+ SG_ DBS_ActualPress : 32|8@1+ (0,0) [0|0] "Mpa" Vector__XXX
+ SG_ DBS_Angle : 40|16@1+ (0,0) [0|0] "" Vector__XXX
+
+BO_ 322 Brake_DBS_Status: 8 Vector__XXX
+ SG_ DBS_System_Status : 0|2@1+ (0,0) [0|0] "N/A" Vector__XXX
+ SG_ DBS_HP_pressure : 24|8@1+ (0,0) [0|0] "Mpa" Vector__XXX
+ SG_ DBS_CheckSum : 56|8@1+ (0,0) [0|0] "1" Vector__XXX
+ SG_ DBS_PeadalOpening : 32|8@1+ (0,0) [0|0] "%" Vector__XXX
+ SG_ DBS_Park_Warning : 6|2@1+ (0,0) [0|0] "1" Vector__XXX
+ SG_ DBS_RollingCounter : 48|4@1+ (0,0) [0|0] "1" Vector__XXX
+ SG_ DBS_Work_Mode : 8|8@1+ (0,0) [0|0] "1" Vector__XXX
+ SG_ DBS_Ref_Iq : 40|8@1+ (0,-20) [-20|-20] "0" Vector__XXX
+ SG_ DBS_PedaiFlag : 55|1@1- (0,0) [0|0] "1" Vector__XXX
+ SG_ DBS_EstopFlag : 54|1@1- (0,0) [0|0] "1" Vector__XXX
+ SG_ DBS_BrakePressureReqACK : 16|8@1+ (0,0) [0|0] "1" Vector__XXX
+
+BO_ 340 Brake_VCU_DBS_Request: 8 Vector__XXX
+ SG_ VCU_DBS_Request_Flag : 0|8@1+ (0,0) [0|0] "1" Vector__XXX
+ SG_ VCU_DBS_Pressure_Request : 16|8@1+ (0,0) [0|0] "Mpa" Vector__XXX
+ SG_ VCU_DBS_Work_Mode : 8|8@1+ (0,0) [0|0] "1" Vector__XXX
+ SG_ VCU_DBS_SpeedFlag : 32|1@1- (0,0) [0|0] "1" Vector__XXX
+
+
+
+

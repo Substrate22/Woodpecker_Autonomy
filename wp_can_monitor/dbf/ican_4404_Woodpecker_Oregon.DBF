@@ -1,0 +1,22 @@
+//******************************BUSMASTER Messages and signals Database ******************************//
+
+[DATABASE_VERSION] 1.3
+
+[PROTOCOL] CAN
+
+[BUSMASTER_VERSION] [3.2.2]
+
+[NUMBER_OF_MESSAGES] 4
+
+[START_MSG] Throttle_Init_message,0,8,0,1,S
+[END_MSG]
+
+[START_MSG] CommandThrottle,513,8,1,1,S
+[START_SIGNALS] Throttlevalue,16,1,0,U,65535,0,1,0.000000,1.000000,,
+[END_MSG]
+
+[START_MSG] Throttle_Status,385,0,0,1,S
+[END_MSG]
+
+[START_MSG] AcceleratorFeedback,1793,0,0,1,S
+[END_MSG]

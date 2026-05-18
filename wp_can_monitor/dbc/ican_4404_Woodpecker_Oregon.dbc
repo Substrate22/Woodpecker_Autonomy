@@ -1,0 +1,20 @@
+VERSION ""
+
+
+BS_:
+
+BU_:
+
+
+BO_ 0 Throttle_Init_message: 8 Vector__XXX
+
+BO_ 513 CommandThrottle: 8 Vector__XXX
+ SG_ Throttlevalue : 0|16@1+ (1,0) [0|65535] "" Vector__XXX
+
+BO_ 385 Throttle_Status: 0 Vector__XXX
+
+BO_ 1793 AcceleratorFeedback: 0 Vector__XXX
+
+
+
+
