@@ -16,8 +16,7 @@ Usage: ```$(basename "$0") <command> [options]```
  
 Commands:
   -init                    Bring up can0 at baudrate of 500000 bps
-  -venv                    Activate virtual environment (activated automatically by decode/log/filter)
-  -deactivate              Reminder: run 'deactivate' in your shell
+  -deactivate              Reminder: run 'deactivate' in your shell when you're done
  
   -decode steering         Decode EPS1/EPS2 CAN messages
   -decode brake            Decode DBS CAN messages

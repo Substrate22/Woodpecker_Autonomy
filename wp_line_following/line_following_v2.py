@@ -1,13 +1,30 @@
 import numpy as np
 import cv2 as cv
 from matplotlib import pyplot as plt
+import config as cfg
 
 image_size_X = 512
 image_size_Y = 512
 
+class DetectionResult:
+    __slots__ = (
+        "left_line", "right_line", "center_offset",
+        "confidence", "annotated", "edges",
+    )
+
+    def __init__(self):
+        self.left_line = None      # ((x1,y1),(x2,y2)) or None
+        self.right_line = None
+        self.center_offset = 0.0   # pixels, positive = lane center right of image center
+        self.confidence = 0.0
+        self.annotated = None      # image with overlays
+        self.edges = None          # Canny output
+
 class LineDetection(object):
-    # def camera_callback():
-    #     pass
+    def __init__(self):
+        self._prev_offset = 0.0
+        self._prev_left = None
+        self._prev_right = None
 
     def build_mask(self, image):
         """Build a trapezoidal ROI that blacks out everything outside the shape
@@ -18,7 +35,7 @@ class LineDetection(object):
         #build a mask from an image to limit the ROI
         mask = np.zeros_like(image)
         #choose white as the mask shape color
-        ignore_mask_color = 255
+        ignore_mask_color = (255,255,255)
         #create a shape for the mask
         rows, cols = image.shape[:2]
         bottom_left = [cols * 0.2, rows * 0.95]
@@ -139,7 +156,7 @@ class LineDetection(object):
         y2 = int(y2)
         return ((x1, y1), (x2, y2))
   
-    def lane_lines(self, image, lines):
+    def extrapolate_lines(self, image, lines):
         """
         Create full length lines from pixel points.
             Parameters:
@@ -163,10 +180,20 @@ class LineDetection(object):
         for line in draw_lines:
             if line is not None:
                 cv.line(image, line[0], line[1], [255, 0, 0], thickness=3)
+        #TODO: apply "temporal smoothing"
+        # Temporal smoothing
+        # if left_line is not None:
+        #     self._prev_left = left_line
+        # elif self._prev_left is not None:
+        #     left_line = self._prev_left
 
+        # if right_line is not None:
+        #     self._prev_right = right_line
+        # elif self._prev_right is not None:
+        #     right_line = self._prev_right
         return left_line, right_line
 
-    def desired_lane(self, left_lane, right_lane):
+    def find_middle_lane(self, left_lane, right_lane):
         """
         Get the arithmetic mean of the left and right lanes 
             Parameters:
@@ -193,21 +220,49 @@ class LineDetection(object):
             (x1, y1), (x2, y2) = lane
             cv.line(frame, (x1, y1), (x2, y2), (0, 255, 0), thickness=3)
 
-    def get_error(self, frame, desired_lane):
+    def find_center_offset(self, frame, left_line, right_line, result):
         """
         Calculates the error between the actual center of the frame and the middle of L/R detected edges.
+        The resulting offset is stored in result.center_offset
+        Returns: exit status 0 is normal
+        TODO: refine this, especially when left/right lines are not visible
         """
-        
-        #define the centerline
-        width = frame.shape[1]
-        frame_center = int(width / 2.0)
+        h, w = frame.shape[:2]
 
-        if desired_lane is not None:
-            center_mean = np.average(desired_lane)      #gives x value of center of desired lane
-            error = center_mean - frame_center
-            print("error is:", error)
-            return error
+        offset = 0.0
+
+        #define the centerline
+        frame_center = int(w / 2.0)
+
+        #If both left and right edges are detected, take the average of them to compute the estimated center of the lane
+        if left_line is not None and right_line is not None:
+            # x positions at the bottom of the image
+            left_x_bot = left_line[0][0]
+            right_x_bot = right_line[0][0]
+            lane_center = (left_x_bot + right_x_bot) / 2
+            offset = lane_center - frame_center
+            result.confidence = 1.0
+        #If only the left line is visible, estimate the center
+        elif left_line is not None:
+            left_x_bot = left_line[0][0]
+            estimated_center = left_x_bot + cfg.ROAD_WIDTH / 2
+            offset = estimated_center - frame_center
+            result.confidence = 0.5
+        elif right_line is not None:
+            right_x_bot = right_line[0][0]
+            estimated_center = right_x_bot - cfg.ROAD_WIDTH / 2
+            offset = estimated_center - frame_center
+            result.confidence = 0.5
+        else:
+            offset = self._prev_offset
+            result.confidence = 0.0
         
+        # Smooth offset using exponential moving average
+        alpha = cfg.SMOOTHING_ALPHA
+        smoothed = alpha * offset + (1 - alpha) * self._prev_offset
+        self._prev_offset = smoothed
+        result.center_offset = smoothed
+
         return 0
 
     def steer_to_line(self, left_avg, right_avg, image):
@@ -235,7 +290,7 @@ class LineDetection(object):
             angle = 0
             print("No lanes found")
         else:
-            middle_line = self.desired_lane(left_avg, right_avg)
+            middle_line = self.find_middle_lane(left_avg, right_avg)
             x1, y1, x2, y2 = middle_line
             self.draw_desired_lane(image, middle_line)
 
@@ -246,6 +301,10 @@ class LineDetection(object):
         return angle, error, image
     
     def process_frame(self):
+        """Run the full line detection pipeline on a video feed"""
+        
+        result = DetectionResult()
+        
         # If the input is the camera, pass 0 instead of the video file 2=webcam (sometimes its 3, 4)
         #TODO: implement fix for checking which index corresponds to the webcam
         cap = cv.VideoCapture(0)
@@ -260,34 +319,32 @@ class LineDetection(object):
             resized_frame = cv.resize(frame, (512, 512), interpolation = cv.INTER_AREA)
             frame = self.build_mask(resized_frame)
 
-            #convert to grayscale
+            #1. Convert to grayscale
             gray = cv.cvtColor(resized_frame,cv.COLOR_BGR2GRAY)
 
-            #apply blur   other options: bilaterial filtering, gaussian blur
-            #blur = cv.medianBlur(gray, 5)
-            blur = cv.GaussianBlur(gray, (9, 9), 0)
+            #2. Apply Gaussian blur
+            blur = cv.GaussianBlur(gray, cfg.GAUSSIAN_KERNEL, 0)
 
-            #transform to binary image
+            #3. Transform to binary image
             th = cv.adaptiveThreshold(blur,255,cv.ADAPTIVE_THRESH_GAUSSIAN_C,cv.THRESH_BINARY,11,2)
             
-            #overlay black box on screen to block out everything not thresholded
-                #TODO: we can do this only if we threshold out a certain color (e.g. white)
-                #make sure th gets overlayed on the black box
-            #cv.rectangle(th, (0, 0), (256, 512), (0,0,0), -1)
+            #4. Canny edge detection
+            edges = cv.Canny(th, cfg.CANNY_LOW, cfg.CANNY_HIGH, apertureSize = 3)
 
-            #detect edges using Canny detection
-            edges = cv.Canny(th, 50, 200, apertureSize = 3)
-            #select region of interest
+            #5. Select region of interest (trapezoid)
             region = self.build_mask(edges)
-            # apply HoughLines - returns an array of lines detected in the image.
+
+            #6. Apply HoughLinesP - returns an array of lines detected in the image.
             houghlines = self.houghP_transform(region)
 
-            left_lane, right_lane = self.lane_lines(frame, houghlines)
-            desired_lane = self.desired_lane(left_lane, right_lane)
+            #7. Classify and average lines
+            left_lane, right_lane = self.extrapolate_lines(frame, houghlines)
+            desired_lane = self.find_middle_lane(left_lane, right_lane)
             #display middle of line
             self.draw_desired_lane(frame, desired_lane)
-            #self.lane_lines(frame, houghlines)
-            self.get_error(frame, desired_lane)
+
+            #8. Compute offset from the center of the image
+            self.find_center_offset(frame, left_lane, right_lane, result)
 
             if ret:
                 # Display camera feed
@@ -312,9 +369,3 @@ class LineDetection(object):
 if __name__ == '__main__':
     line_detection = LineDetection()
     line_detection.process_frame()
-
-# #probabalistic hough line detector
-# lines = cv.HoughLinesP(BinaryImage(Canny),distanceResolution,angleResolution,threshold,minLineLength=integer,maxLineGap=integer)
-# for line in lines:
-#     x1,y1,x2,y2 = line[0]
-#     cv.line(image,(x1,y1),(x2,y2),(0,255,0),thickness)
