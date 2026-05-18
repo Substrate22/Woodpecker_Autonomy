@@ -4,15 +4,15 @@ This is a simple bash script that allows you to view the data flowing on the Woo
   <!---TODO: add image of the script working![script working] (path/to/image.jpg)-->
   
 ## Tools required
+- Linux bash terminal
 - USB-to-CAN adapter
 <img src="images/USB-to-CAN-adapter.jpg" width="300">
 
   The Woodpecker uses a [CANable adapter from Amazon]([url](https://a.co/d/0dVkjKnT)), but any device compatible with the SocketCAN Linux interface works.
 
-- Linux bash terminal
 
 ## Use
-Usage: ```$(basename "$0") <command> [options]```
+Usage: ```$./wp_can_monitor <command> [options]```
  
 Commands:
 
