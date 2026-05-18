@@ -1,4 +1,4 @@
-# line_following_v1: A line detection OpenCV-Python script
+# line_following_v2: A line detection OpenCV-Python script
 
 ## Requirements
 - Python ver. 3.8+
@@ -20,10 +20,10 @@ pip install opencv-python
 
 To run, type:
 ```
-python3 line_following_v1.py
+python3 line_following_v2.py
 ```
 
 ## Notes
 - Video input: In the `process_frame` function, `cv.VideoCapture(0)` sets the laptop webcam as the video input source. To use a USB camera, you might need to try indexes 2, 3, or 4.
 - The camera is meant to be placed at an angle close to the ground with the line at the same field of view as the trapezoidal frame. Try placing a rectangular object in front of a blank background and orienting the edges to match the trapezoid, as shown below: 
-<img width="1405" height="554" alt="Image of the video frame, Canny edge detection, and drawing the line edges and center" src="https://github.com/user-attachments/assets/cb76c99c-5620-4717-a510-1de9cd26c7bd" />
+<img width="1405" height="554" alt="Image of the Canny edge detection and drawing the line edges and center" src="images/demo-output.png" />
