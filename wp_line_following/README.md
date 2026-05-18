@@ -8,7 +8,7 @@
 ## Step one: clone this repository
 Type into your terminal/shell:
 ```
-git clone https://github.com/Substrate22/Woodpecker_Autonomy_v1.git
+git clone https://github.com/Substrate22/Woodpecker_Autonomy.git
 ```
 
 To setup, you need to install the following dependicies via:
