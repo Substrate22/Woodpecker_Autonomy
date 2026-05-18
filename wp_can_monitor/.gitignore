@@ -4,6 +4,9 @@ canenv/
 # CAN log files
 logs/
 
+# DBF files (only used for Busmaster)
+dbf/
+
 # Cantools scripts (Moved to new directory in repo)
 python_scripts/
 

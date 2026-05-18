@@ -57,7 +57,7 @@ decode() {
     dbc_file="$(require_dbc "$1")"
     activate_venv
     echo "Decoding with $(basename "$dbc_file") — press Ctrl+C to stop."
-    candump "$CAN_IFACE" | python3 -m cantools decode "$dbc_file"
+    candump -t A "$CAN_IFACE" | python3 -m cantools decode "$dbc_file"
 }
 
 log_and_decode() {
@@ -67,7 +67,7 @@ log_and_decode() {
     capture_log="${3:-capture_outfile.log}"
     activate_venv
     echo "Logging raw → $raw_log  |  decoded → $capture_log  — press Ctrl+C to stop."
-    candump "$CAN_IFACE" \
+    candump -t A "$CAN_IFACE" \
         | tee "$raw_log" \
         | python3 -m cantools decode "$dbc_file" \
         | tee "$capture_log"
@@ -78,7 +78,7 @@ filter_decode() {
     dbc_file="$(require_dbc "$2")"
     activate_venv
     echo "Filtering 0x$1 — press Ctrl+C to stop."
-    candump "${CAN_IFACE},${filter}" | python3 -m cantools decode "$dbc_file"
+    candump -t A "${CAN_IFACE},${filter}" | python3 -m cantools decode "$dbc_file"
 }
  
 usage() {
