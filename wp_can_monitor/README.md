@@ -1,17 +1,16 @@
 # wp_can_monitor: A simple Linux command line CAN bus tool for the Woodpecker
 This is a simple bash script that allows you to view the data flowing on the Woodpecker's CAN bus.
 
-  <!---TODO: add image of the script working![USB-to-CAN adapter from https://a.co/d/0dVkjKnT] (path/to/image.jpg)-->
+  <!---TODO: add image of the script working![script working] (path/to/image.jpg)-->
   
 ## Tools required
 - USB-to-CAN adapter
-![USB-to-CAN adapter from https://a.co/d/0dVkjKnT](images/USB-to-CAN adapter.jpg)
+![USB-to-CAN adapter](images/USB-to-CAN-adapter.jpg)
 
-  -The Woodpecker uses a CANable adapter from Amazon, but any device
-compatible with the SocketCAN Linux interface works.
+  -The Woodpecker uses a [CANable adapter from Amazon]([url](https://a.co/d/0dVkjKnT)), but any device compatible with the SocketCAN Linux interface works.
 
 - Linux bash terminal
-- 
+
 ## Use
 Usage: ```$(basename "$0") <command> [options]```
  
