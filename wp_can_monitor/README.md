@@ -5,7 +5,7 @@ This is a simple bash script that allows you to view the data flowing on the Woo
   
 ## Tools required
 - USB-to-CAN adapter
-![USB-to-CAN adapter from https://a.co/d/0dVkjKnT] (~/images/USB-to-CAN adapter.jpg)
+![USB-to-CAN adapter from https://a.co/d/0dVkjKnT](images/USB-to-CAN adapter.jpg)
 
   -The Woodpecker uses a CANable adapter from Amazon, but any device
 compatible with the SocketCAN Linux interface works.
